@@ -61,3 +61,27 @@ def check_container():
 
 # Run the container audit
 check_container()
+
+#inventories comparison
+def compare_inventories():
+    print()
+    print("INVENTORY COMPARISON")
+    print("=" * 40)
+
+    for container_no in yard_inventory:
+
+        yard_position = yard_inventory[container_no]
+        operations_position = operations_inventory[container_no]
+
+        print()
+        print("Container:", container_no)
+        print("Yard Position:", yard_position)
+        print("Operations Position:", operations_position)
+
+        if yard_position == operations_position:
+            print("Status: MATCH")
+        else:
+            print("Status: MISMATCH")
+
+# Run inventory comparison
+compare_inventories()
