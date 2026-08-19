@@ -50,3 +50,8 @@ if container_no in inventory:
 else:
 
     print("Container not found in yard inventory.")
+#Function
+def test_function():
+    print("PortSync function is working.")
+
+test_function()
