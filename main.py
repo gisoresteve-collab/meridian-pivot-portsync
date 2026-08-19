@@ -15,12 +15,18 @@ print("=" * 40)
 
 
 # Yard inventory
-inventory = {
+yard_inventory = {
     "STJU1234567": "SQ 32 F 1",
     "BSJU2345123": "SL 41 C 3",
     "GSNU7823456": "SR 24 A 1"
 }
 
+#OPERATIONAL INVENTORY
+operations_inventory = {
+    "STJU1234567": "SQ 32 F 1",
+    "BSJU2345123": "SQ 41 C 3",
+    "GSNU7823456": "SR 24 A 1"
+}
 
 # Check and audit a container
 def check_container():
@@ -30,11 +36,11 @@ def check_container():
     print()
     print("Container selected:", container_no)
 
-    if container_no in inventory:
+    if container_no in yard_inventory:
 
         print("Container found in yard inventory.")
 
-        allocation = inventory[container_no]
+        allocation = yard_inventory[container_no]
 
         print("Expected Allocation:", allocation)
 
