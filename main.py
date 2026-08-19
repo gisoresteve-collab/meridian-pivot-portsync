@@ -13,11 +13,6 @@ print("=" * 40)
 print("         YARD AUDIT")
 print("=" * 40)
 
-# Ask the auditor for the container number
-container_no = input("Enter Container No.: ")
-
-print()
-print("Container selected:", container_no)
 
 # Yard inventory
 inventory = {
@@ -26,32 +21,37 @@ inventory = {
     "GSNU7823456": "SR 24 A 1"
 }
 
-# Check whether container exists
-if container_no in inventory:
 
-    print("Container found in yard inventory.")
+# Check and audit a container
+def check_container():
 
-    # Get expected allocation
-    allocation = inventory[container_no]
-    print("Expected Allocation:", allocation)
-
-    # Ask auditor for actual allocation
-    actual_allocation = input("Enter Actual Allocation: ")
+    container_no = input("Enter Container No.: ")
 
     print()
-    print("Actual Allocation:", actual_allocation)
+    print("Container selected:", container_no)
 
-    # Compare expected and actual allocation
-    if allocation == actual_allocation:
-        print("Position match")
+    if container_no in inventory:
+
+        print("Container found in yard inventory.")
+
+        allocation = inventory[container_no]
+
+        print("Expected Allocation:", allocation)
+
+        actual_allocation = input("Enter Actual Allocation: ")
+
+        print()
+        print("Actual Allocation:", actual_allocation)
+
+        if allocation == actual_allocation:
+            print("Position match")
+        else:
+            print("Position mismatch")
+
     else:
-        print("Position mismatch")
 
-else:
+        print("Container not found in yard inventory.")
 
-    print("Container not found in yard inventory.")
-#Function
-def test_function():
-    print("PortSync function is working.")
 
-test_function()
+# Run the container audit
+check_container()
