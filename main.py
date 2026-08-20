@@ -64,9 +64,12 @@ check_container()
 
 #inventories comparison
 def compare_inventories():
+
     print()
     print("INVENTORY COMPARISON")
     print("=" * 40)
+
+    discrepancies = []
 
     for container_no in yard_inventory:
 
@@ -79,9 +82,26 @@ def compare_inventories():
         print("Operations Position:", operations_position)
 
         if yard_position == operations_position:
-            print("Status: MATCH")
-        else:
-            print("Status: MISMATCH")
 
-# Run inventory comparison
-compare_inventories()
+            print("Status: MATCH")
+
+        else:
+
+            print("Status: MISMATCH")
+            discrepancies.append(container_no)
+
+    print()
+    print("=" * 40)
+    print("DISCREPANCIES FOUND")
+    print("=" * 40)
+
+    if discrepancies:
+
+        for container_no in discrepancies:
+            print("Container requiring synchronization:", container_no)
+
+    else:
+
+        print("No discrepancies found.")
+
+    return discrepancies
