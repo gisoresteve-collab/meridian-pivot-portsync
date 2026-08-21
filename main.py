@@ -14,21 +14,32 @@ print("         YARD AUDIT")
 print("=" * 40)
 
 
-# Yard inventory
+# ========================================
+# YARD INVENTORY
+# ========================================
+
 yard_inventory = {
     "STJU1234567": "SQ 32 F 1",
     "BSJU2345123": "SL 41 C 3",
     "GSNU7823456": "SR 24 A 1"
 }
 
-#OPERATIONAL INVENTORY
+
+# ========================================
+# OPERATIONS INVENTORY
+# ========================================
+
 operations_inventory = {
     "STJU1234567": "SQ 32 F 1",
     "BSJU2345123": "SQ 41 C 3",
     "GSNU7823456": "SR 24 A 1"
 }
 
-# Check and audit a container
+
+# ========================================
+# 1. CONTAINER AUDIT
+# ========================================
+
 def check_container():
 
     container_no = input("Enter Container No.: ")
@@ -59,13 +70,14 @@ def check_container():
         print("Container not found in yard inventory.")
 
 
-# Run the container audit
-check_container()
+# ========================================
+# 2. COMPARE INVENTORIES
+# ========================================
 
-#inventories comparison
 def compare_inventories():
 
     print()
+    print("=" * 40)
     print("INVENTORY COMPARISON")
     print("=" * 40)
 
@@ -74,6 +86,7 @@ def compare_inventories():
     for container_no in yard_inventory:
 
         yard_position = yard_inventory[container_no]
+
         operations_position = operations_inventory[container_no]
 
         print()
@@ -88,6 +101,7 @@ def compare_inventories():
         else:
 
             print("Status: MISMATCH")
+
             discrepancies.append(container_no)
 
     print()
@@ -98,7 +112,11 @@ def compare_inventories():
     if discrepancies:
 
         for container_no in discrepancies:
-            print("Container requiring synchronization:", container_no)
+
+            print(
+                "Container requiring synchronization:",
+                container_no
+            )
 
     else:
 
@@ -106,32 +124,56 @@ def compare_inventories():
 
     return discrepancies
 
-def synchronize_inventory():
+
+# ========================================
+# 3. SYNCHRONIZE INVENTORIES
+# ========================================
+
+def synchronize_inventory(discrepancies):
 
     print()
     print("=" * 40)
     print("INVENTORY SYNCHRONIZATION")
     print("=" * 40)
 
-    for container_no in yard_inventory:
+    synchronized_containers = []
 
-        yard_position = yard_inventory[container_no]
-        operations_position = operations_inventory[container_no]
+    for container_no in discrepancies:
 
-        if yard_position != operations_position:
+        old_position = yard_inventory[container_no]
 
-            print()
-            print("Synchronizing:", container_no)
-            print("Old Yard Position:", yard_position)
-            print("Operations Position:", operations_position)
+        new_position = operations_inventory[container_no]
 
-            yard_inventory[container_no] = operations_position
+        print()
+        print("Synchronizing:", container_no)
 
-            print("New Yard Position:", yard_inventory[container_no])
-            print("Synchronization complete.")
+        print("Old Yard Position:", old_position)
+
+        print("Operations Position:", new_position)
+
+        # Update yard inventory
+        yard_inventory[container_no] = new_position
+
+        synchronized_containers.append({
+            "container": container_no,
+            "old_position": old_position,
+            "new_position": new_position
+        })
+
+        print(
+            "New Yard Position:",
+            yard_inventory[container_no]
+        )
+
+        print("Synchronization complete.")
+
+    return synchronized_containers
 
 
-synchronize_inventory()
+# ========================================
+# 4. VERIFY SYNCHRONIZATION
+# ========================================
+
 def verify_synchronization():
 
     print()
@@ -142,11 +184,81 @@ def verify_synchronization():
     for container_no in yard_inventory:
 
         yard_position = yard_inventory[container_no]
+
         operations_position = operations_inventory[container_no]
 
         if yard_position == operations_position:
+
             print(container_no, ": MATCH")
+
         else:
+
             print(container_no, ": STILL MISMATCH")
 
+
+# ========================================
+# 5. GENERATE SYNC REPORT
+# ========================================
+
+def generate_sync_report(synchronized_containers):
+
+    print()
+    print("=" * 40)
+    print("          PORTSYNC SYNC REPORT")
+    print("=" * 40)
+
+    total_containers = len(yard_inventory)
+
+    synchronized = len(synchronized_containers)
+
+    print()
+    print("Containers Checked:", total_containers)
+
+    print("Containers Synchronized:", synchronized)
+
+    print()
+    print("----------------------------------------")
+    print("SYNCHRONIZED CONTAINERS")
+    print("----------------------------------------")
+
+    if synchronized_containers:
+
+        for record in synchronized_containers:
+
+            print()
+            print("Container:", record["container"])
+
+            print("Old Position:", record["old_position"])
+
+            print("New Position:", record["new_position"])
+
+    else:
+
+        print("No containers required synchronization.")
+
+    print()
+    print("----------------------------------------")
+    print("SYNC STATUS")
+    print("----------------------------------------")
+
+    print("SUCCESS - Synchronization completed.")
+
+
+# ========================================
+# PORTSYNC PROGRAM FLOW
+# ========================================
+
+# Step 1: Audit a container
+check_container()
+
+# Step 2: Compare the two inventories
+discrepancies = compare_inventories()
+
+# Step 3: Synchronize discrepancies
+synchronized_containers = synchronize_inventory(discrepancies)
+
+# Step 4: Verify synchronization
 verify_synchronization()
+
+# Step 5: Generate final report
+generate_sync_report(synchronized_containers)
