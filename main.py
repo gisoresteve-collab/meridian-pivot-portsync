@@ -105,3 +105,30 @@ def compare_inventories():
         print("No discrepancies found.")
 
     return discrepancies
+
+def synchronize_inventory():
+
+    print()
+    print("=" * 40)
+    print("INVENTORY SYNCHRONIZATION")
+    print("=" * 40)
+
+    for container_no in yard_inventory:
+
+        yard_position = yard_inventory[container_no]
+        operations_position = operations_inventory[container_no]
+
+        if yard_position != operations_position:
+
+            print()
+            print("Synchronizing:", container_no)
+            print("Old Yard Position:", yard_position)
+            print("Operations Position:", operations_position)
+
+            yard_inventory[container_no] = operations_position
+
+            print("New Yard Position:", yard_inventory[container_no])
+            print("Synchronization complete.")
+
+
+synchronize_inventory()
