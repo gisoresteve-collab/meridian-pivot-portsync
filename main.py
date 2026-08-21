@@ -132,3 +132,21 @@ def synchronize_inventory():
 
 
 synchronize_inventory()
+def verify_synchronization():
+
+    print()
+    print("=" * 40)
+    print("SYNC VERIFICATION")
+    print("=" * 40)
+
+    for container_no in yard_inventory:
+
+        yard_position = yard_inventory[container_no]
+        operations_position = operations_inventory[container_no]
+
+        if yard_position == operations_position:
+            print(container_no, ": MATCH")
+        else:
+            print(container_no, ": STILL MISMATCH")
+
+verify_synchronization()
